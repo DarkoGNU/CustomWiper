@@ -66,9 +66,18 @@ def parse_args(args):
     return interpret_args(parsed)
 
 
+def wipe_file(path):
+    print("unimplemented")
+
+
 def main():
     args = parse_args(argv[1:])
-    print(args)
+
+    if args.path.is_file():
+        wipe_file(args.path)
+    else:
+        for path in args.path.rglob("*"):
+            wipe_file(path)
 
 
 if __name__ == '__main__':
