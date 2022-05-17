@@ -39,7 +39,8 @@ def interpret_args(args):
         with open(content_path, "r+b") as file:
             return Data(path, inflate(file.read()))
     except IOError:
-        file.close()
+        print("Can't read your content file", args.file)
+        exit()
 
 
 def parse_args(args):
@@ -92,7 +93,7 @@ def wipe_file(path, content, pos):
             while write_pos < size:
                 available_content = len(content) - pos
                 available_len = size - write_pos
-                if available_len > available_content:
+                if available_len >= available_content:
                     file.write(content[pos:])
                     pos = 0
                     write_pos += available_content
@@ -100,9 +101,6 @@ def wipe_file(path, content, pos):
                     file.write(content[pos:pos + available_len])
                     pos += available_len
                     write_pos = size
-
-                if pos > len(content):
-                    pos = 0
 
     except IOError:
         print("Can't overwrite " + str(path))
