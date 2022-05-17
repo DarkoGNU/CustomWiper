@@ -1,2 +1,0 @@
-One argument: either file path or content
-Switch: is it a path or content?
