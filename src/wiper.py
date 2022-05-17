@@ -1,13 +1,19 @@
 from dataclasses import dataclass
 from pathlib import Path
-import argparse
-import sys
+from argparse import ArgumentParser
+from sys import argv, exit
+
+
+# except IOError as e:
+# print("Can't read " + args.file)
+# print("I/O Error ({0}): {1}".format(e.errno, e.strerror))
+# exit()
 
 
 @dataclass
 class Data:
     path: Path
-    content: bytes
+    content: bytes | Path
 
 
 def interpret_args(args):
@@ -16,23 +22,24 @@ def interpret_args(args):
     if not path.exists():
         print("The path you're trying to wipe ({0}) is invalid."
               .format(args.path))
-        sys.exit()
+        exit()
 
     if args.text is not None:
-        return Data(path, args.text)
+        return Data(path, bytes(args.text))
 
-    try:
-        with Path(args.file) as file:
-            return Data(path, file.read_bytes())
-    except IOError as e:
-        print("Can't read " + args.file)
-        print("I/O Error ({0}): {1}".format(e.errno, e.strerror))
-        sys.exit()
+    content_path = Path(args.file)
+
+    if not content_path.exists():
+        print("Your file path ({0}) is invalid."
+              .format(args.file))
+        exit()
+
+    return Data(path, content_path)
 
 
 def parse_args(args):
-    parser = argparse.ArgumentParser(
-        description='Gets the path and content.',
+    parser = ArgumentParser(
+        description='Wipe a file, directory, or disk, all with your custom content.',
         add_help=False,
         epilog="--file and --text can't appear simultaneously.")
 
@@ -54,13 +61,13 @@ def parse_args(args):
             or (parsed.file is not None and parsed.text is not None)
             or (parsed.file is None and parsed.text is None)):
         parser.print_help()
-        sys.exit()
+        exit()
 
     return interpret_args(parsed)
 
 
 def main():
-    args = parse_args(sys.argv[1:])
+    args = parse_args(argv[1:])
     print(args)
 
 
