@@ -7,7 +7,7 @@ from sys import argv, exit
 @dataclass
 class Data:
     path: Path
-    content: bytes | Path
+    content: bytes
 
 
 def interpret_args(args):
@@ -19,7 +19,7 @@ def interpret_args(args):
         exit()
 
     if args.text is not None:
-        return Data(path, bytes(args.text))
+        return Data(path, str.encode(args.text))
 
     content_path = Path(args.file)
 
@@ -28,12 +28,18 @@ def interpret_args(args):
               .format(args.file))
         exit()
 
-    return Data(path, content_path)
+    try:
+        with open(content_path, "r+b") as file:
+            return Data(path, file.read())
+    except IOError as e:
+        print("Can't read your file, " + str(path))
+        exit()
 
 
 def parse_args(args):
     parser = ArgumentParser(
-        description='Wipe a file, directory, or disk, all with your custom content.',
+        description="Wipe a file, directory, or disk,"
+                    "all with your custom content.",
         add_help=False,
         epilog="--file and --text can't appear simultaneously.")
 
@@ -43,7 +49,9 @@ def parse_args(args):
                         help="Wipe the following path.",
                         metavar='PATH')
     parser.add_argument('-f', '--file', nargs='?',
-                        help="Wipe using contents of the following file.",
+                        help="Wipe using contents of the following file."
+                             "The file will be loaded into RAM, so using big"
+                             "files is discouraged",
                         metavar='PATH')
     parser.add_argument('-t', '--text', nargs='?',
                         help="Wipe using the following text.",
@@ -61,8 +69,27 @@ def parse_args(args):
 
 
 def wipe_file(path, content, pos):
-    with open(path, 'w') as wiped_file:
-        print("xd")
+    try:
+        size = path.stat().st_size
+        write_pos = 0
+        with open(path, "w+b") as file:
+            while write_pos < size:
+                available_content = len(content) - pos
+                available_len = size - write_pos
+                if available_len > available_content:
+                    file.write(content[pos:])
+                    pos = 0
+                    write_pos += available_content
+                else:
+                    file.write(content[pos:pos + available_len])
+                    pos += available_len
+                    write_pos = size
+
+                if pos > len(content):
+                    pos = 0
+
+    except IOError as e:
+        print("Can't overwrite " + str(path))
 
     return pos
 
