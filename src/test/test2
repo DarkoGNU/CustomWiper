@@ -1,6 +1,0 @@
- sys import argv, exit
-
-
-@dataclass
-class Data:
- 

@@ -1,6 +1,0 @@
-   path: Path
-    content: bytes
-
-
-def interpret_args(args):
-    path = Pa
