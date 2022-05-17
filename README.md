@@ -1,8 +1,8 @@
 # CustomWiper
 A Python package that wipes data by overwriting it with custom content.
 
-```commandline
-python __main__.py --help
+```console
+[darkognu@ArchLenovo src]$ python __main__.py --help
 usage: __main__.py [-h] [-p [PATH]] [-f [PATH]] [-t [TEXT]]
 
 Gets the path and content.
