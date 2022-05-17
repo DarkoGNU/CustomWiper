@@ -45,7 +45,7 @@ def interpret_args(args):
 
 def parse_args(args):
     parser = ArgumentParser(
-        description="Wipe a file, directory, or disk,"
+        description="Wipe a file, directory, or disk, "
                     "all with your custom content.",
         add_help=False,
         epilog="--file and --text can't appear simultaneously.")
@@ -56,8 +56,8 @@ def parse_args(args):
                         help="Wipe the following path.",
                         metavar='PATH')
     parser.add_argument('-f', '--file', nargs='?',
-                        help="Wipe using contents of the following file."
-                             "The file will be loaded into RAM, so using big"
+                        help="Wipe using contents of the following file. "
+                             "The file will be loaded into RAM, so using big "
                              "files is discouraged",
                         metavar='PATH')
     parser.add_argument('-t', '--text', nargs='?',
