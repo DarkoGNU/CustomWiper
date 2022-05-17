@@ -10,6 +10,13 @@ class Data:
     content: bytes
 
 
+def inflate(content):
+    while len(content) < 32768:
+        content += content
+
+    return content
+
+
 def interpret_args(args):
     path = Path(args.path)
 
@@ -19,7 +26,7 @@ def interpret_args(args):
         exit()
 
     if args.text is not None:
-        return Data(path, str.encode(args.text))
+        return Data(path, inflate(str.encode(args.text)))
 
     content_path = Path(args.file)
 
@@ -30,10 +37,9 @@ def interpret_args(args):
 
     try:
         with open(content_path, "r+b") as file:
-            return Data(path, file.read())
-    except IOError as e:
-        print("Can't read your file, " + str(path))
-        exit()
+            return Data(path, inflate(file.read()))
+    except IOError:
+        file.close()
 
 
 def parse_args(args):
@@ -69,6 +75,16 @@ def parse_args(args):
 
 
 def wipe_file(path, content, pos):
+    # For block devices
+    if path.is_block_device():
+        try:
+            with open(path, "w+b") as file:
+                while True:
+                    file.write(content)
+        except IOError:
+            return 0
+
+    # For files
     try:
         size = path.stat().st_size
         write_pos = 0
@@ -88,7 +104,7 @@ def wipe_file(path, content, pos):
                 if pos > len(content):
                     pos = 0
 
-    except IOError as e:
+    except IOError:
         print("Can't overwrite " + str(path))
 
     return pos
@@ -97,12 +113,13 @@ def wipe_file(path, content, pos):
 def main():
     args = parse_args(argv[1:])
 
-    if args.path.is_file():
+    if args.path.is_file() or args.path.is_block_device():
         wipe_file(args.path, args.content, 0)
     else:
         pos = 0
         for path in args.path.rglob("*"):
-            pos = wipe_file(path, args.content, pos)
+            if path.is_file():
+                pos = wipe_file(path, args.content, pos)
 
 
 if __name__ == '__main__':
