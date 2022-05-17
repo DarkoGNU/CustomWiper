@@ -4,12 +4,6 @@ from argparse import ArgumentParser
 from sys import argv, exit
 
 
-# except IOError as e:
-# print("Can't read " + args.file)
-# print("I/O Error ({0}): {1}".format(e.errno, e.strerror))
-# exit()
-
-
 @dataclass
 class Data:
     path: Path
@@ -66,18 +60,22 @@ def parse_args(args):
     return interpret_args(parsed)
 
 
-def wipe_file(path):
-    print("unimplemented")
+def wipe_file(path, content, pos):
+    with open(path, 'w') as wiped_file:
+        print("xd")
+
+    return pos
 
 
 def main():
     args = parse_args(argv[1:])
 
     if args.path.is_file():
-        wipe_file(args.path)
+        wipe_file(args.path, args.content, 0)
     else:
+        pos = 0
         for path in args.path.rglob("*"):
-            wipe_file(path)
+            pos = wipe_file(path, args.content, pos)
 
 
 if __name__ == '__main__':
