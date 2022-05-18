@@ -1,4 +1,7 @@
 # CustomWiper
+
+[![Jenkins](https://jenkins.darkognu.eu/buildStatus/icon?job=CustomWiper&style=plastic&subject=Jenkins)](https://jenkins.darkognu.eu/job/CustomWiper/)
+
 A Python package that wipes data by overwriting it with custom content.
 Be careful, there are no warnings and sanity checks. I'm not responsible
 if you wipe your hard drive with precious family photos or something.

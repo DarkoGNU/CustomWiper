@@ -1,8 +1,5 @@
 pipeline {
     agent none
-    options {
-        skipStagesAfterUnstable()
-    }
     stages {
         stage('Build') {
             agent {
@@ -12,7 +9,6 @@ pipeline {
             }
             steps {
                 sh 'python -m py_compile src/wiper.py'
-                stash(name: 'compiled-results', includes: 'src/*.py*')
             }
         }
         /*
@@ -39,11 +35,11 @@ pipeline {
                 }
             }
             steps {
-                sh 'pyinstaller --onefile src/add2vals.py'
+                sh 'pyinstaller --onefile src/wiper.py'
             }
             post {
                 success {
-                    archiveArtifacts 'dist/add2vals'
+                    archiveArtifacts 'dist/wiper'
                 }
             }
         }
