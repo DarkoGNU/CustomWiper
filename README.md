@@ -12,6 +12,23 @@ basic stuff about Jenkins. The continuous integration is performed
 by my Jenkins instance (accessible at
 [jenkins.darkognu.eu](https://jenkins.darkognu.eu/)).
 
+### You tried using Docker agents. Why you didn't you succeed?
+
+I believe it's a bug in Jenkins. See [JENKINS-58657](https://issues.jenkins.io/browse/JENKINS-58657),
+that bug would explain it.
+
+So, when I was using Docker agents, the step `sh` wouldn't work. Consider this code:
+
+```bash
+steps {
+    echo "This is going to work"
+    sh "echo 'This is not going to work'"
+    sh 'python -m py_compile src/wiper.py'
+}
+```
+
+Only the first step would execute!
+
 ## Usage
 
 ```console
