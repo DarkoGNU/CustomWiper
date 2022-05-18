@@ -1,6 +1,6 @@
 # CustomWiper
 
-[![Jenkins](https://jenkins.darkognu.eu/buildStatus/icon?job=CustomWiper&style=plastic&subject=Jenkins)](https://jenkins.darkognu.eu/job/CustomWiper/)
+[![Jenkins](https://jenkins.darkognu.eu/buildStatus/icon?job=CustomWiper%2Fmain&style=plastic&subject=Jenkins)](https://jenkins.darkognu.eu/blue/organizations/jenkins/CustomWiper/activity)
 
 A Python package that wipes data by overwriting it with custom content.
 Be careful, there are no warnings and sanity checks. I'm not responsible
@@ -10,7 +10,7 @@ if you wipe your hard drive with precious family photos or something.
 I've written CustomWiper to brush up on my Python skills and to learn
 basic stuff about Jenkins. The continuous integration is performed
 by my Jenkins instance (accessible at
-[jenkins.darkognu.eu](https://jenkins.darkognu.eu/)).
+[jenkins.darkognu.eu](https://jenkins.darkognu.eu/blue/pipelines)).
 
 ### You tried using Docker agents. Why you didn't you succeed?
 
