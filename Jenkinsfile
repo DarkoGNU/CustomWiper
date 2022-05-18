@@ -5,9 +5,12 @@ pipeline {
             agent {
                 docker {
                     image 'python:3-alpine'
+                    args '-it --entrypoint='
                 }
             }
             steps {
+                echo "I'm trying my best!"
+                sh "echo 'Im trying my best!'"
                 sh 'python -m py_compile src/wiper.py'
             }
         }
@@ -32,9 +35,12 @@ pipeline {
             agent {
                 docker {
                     image 'cdrx/pyinstaller-linux:python3'
+                    args '-it --entrypoint='
                 }
             }
             steps {
+                echo "I'm trying my best!"
+                sh "echo 'Im trying my best!'"
                 sh 'pyinstaller --onefile src/wiper.py'
             }
             post {
