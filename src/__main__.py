@@ -1,3 +1,3 @@
-from wiper import main
+from .wiper import main
 
 main()

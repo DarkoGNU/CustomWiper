@@ -11,8 +11,9 @@ class Data:
 
 
 def inflate(content):
+    original = content
     while len(content) < 32768:
-        content += content
+        content += original
 
     return content
 
