@@ -59,7 +59,7 @@ def parse_args(args):
     parser.add_argument('-f', '--file', nargs='?',
                         help="Wipe using contents of the following file. "
                              "The file will be loaded into RAM, so using big "
-                             "files is discouraged",
+                             "files is discouraged.",
                         metavar='PATH')
     parser.add_argument('-t', '--text', nargs='?',
                         help="Wipe using the following text.",
