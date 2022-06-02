@@ -42,7 +42,7 @@ options:
   -p [PATH], --path [PATH]
                         Wipe the following path.
   -f [PATH], --file [PATH]
-                        Wipe using contents of the following file. The file will be loaded into RAM, so using big files is discouraged
+                        Wipe using contents of the following file. The file will be loaded into RAM, so using big files is discouraged.
   -t [TEXT], --text [TEXT]
                         Wipe using the following text.
 
