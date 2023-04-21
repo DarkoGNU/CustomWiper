@@ -1,3 +1,4 @@
+# Simple Jenkinsfile to build CustomWiper
 pipeline {
     agent any
     stages {
